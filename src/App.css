@@ -1,0 +1,47 @@
+.comparison-container {
+  display: flex;
+}
+
+.comparison-item {
+  flex: 1;
+  min-width: 0;
+  padding: 1px;
+}
+
+.line-container .lineItem {
+  opacity: 1;
+}
+
+.line-container:hover .lineItem {
+  opacity: 0.2;
+}
+
+.line-container .lineItem:hover {
+  opacity: 1;
+  stroke-width: 3px;
+}
+
+
+@media (max-width: 449px) {
+  .comparison-container {
+    display: block;
+  }
+
+  .comparison-item {
+    flex: none;
+  }
+}
+
+.header {
+  display: block;
+  margin: auto;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.footer {
+  display: block;
+  margin: auto;
+  margin-top: 20px;
+  text-align: center;
+}
