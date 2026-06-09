@@ -17,10 +17,9 @@ export const ResponsiveEnergyMixStackedArea = (props) => {
     );
 };
 
-export const EnergyMixStackedArea = ({ width, height, data }) => {
+export const EnergyMixStackedArea = ({ width, height, data, selectedEnergy = null }) => {
 
     const [tooltip, setTooltip] = useState(null);
-    console.log('EnergyMixStackedArea rendering with width:', width, 'height:', height);
 
     const margin = { top: 20, right: 30, bottom: 40, left: 80 };
 
@@ -106,13 +105,22 @@ export const EnergyMixStackedArea = ({ width, height, data }) => {
         <svg width={width} height={height} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
             <g transform={`translate(${margin.left}, ${margin.top})`}>
 
-                {stackedData.map((layer, i) => (
-                    <path
-                        key={i}
-                        d={areaGenerator(layer)}
-                        fill={colorScale(energyTypes[i])}
-                    />
-                ))}
+                {stackedData.map((layer, i) => {
+
+                    const isNotSelected = selectedEnergy && layer.key !== selectedEnergy;
+                    
+                    return (
+                        <path
+                            key={i}
+                            d={areaGenerator(layer)}
+                            fill={colorScale(layer.key)}
+                            style={
+                                selectedEnergy
+                                    ? { opacity: isNotSelected ? 0.2 : 1 }
+                                    : undefined
+                            }
+                        />
+                )})}
 
                 {/* Overlay for mouse tracking */}
                 <rect

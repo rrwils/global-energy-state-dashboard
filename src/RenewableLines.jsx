@@ -16,7 +16,7 @@ export const ResponsiveRenewableLines = (props) => {
     );
 };
 
-export const RenewableLines = ({ width, height, data }) => {
+export const RenewableLines = ({ width, height, data, highlightedRenewable = null }) => {
 
     const [tooltip, setTooltip] = useState(null);
 
@@ -98,14 +98,22 @@ export const RenewableLines = ({ width, height, data }) => {
                                 value: d[type]
                             }));
 
+                        const isHighlighted = highlightedRenewable === type;
+                        const isDimmed = highlightedRenewable && type !== highlightedRenewable;
+
                         return (
                             <path 
                                 key={type}
                                 d={lineGenerator(lineData)}
                                 fill="none"
                                 stroke={colorScale(type)}
-                                strokeWidth={2}
+                                strokeWidth={isHighlighted ? 2.75 : 2}
                                 className="lineItem"
+                                style={
+                                    highlightedRenewable
+                                        ? { opacity: isDimmed ? 0.22 : 1 }
+                                        : undefined
+                                }
                             />
                         );
                     })}
@@ -144,14 +152,18 @@ export const RenewableLines = ({ width, height, data }) => {
                         return str.charAt(0).toUpperCase() + str.slice(1).replace(/_/g, ' ');
                     };
 
+                    const isHighlighted = highlightedRenewable === type;
+                    const isDimmed = highlightedRenewable && type !== highlightedRenewable;
+
                     return (
                         <>
                             <circle 
                                 key={type}
                                 cx={xScale(2024)}
                                 cy={yScale(value2024)}
-                                r={3}
+                                r={isHighlighted ? 4 : 3}
                                 fill={colorScale(type)}
+                                opacity={isDimmed ? 0.2 : 1}
                             />
 
                             <text
@@ -161,6 +173,8 @@ export const RenewableLines = ({ width, height, data }) => {
                                 fontSize="11px"
                                 fill={type === 'solar' ? '#e8b131' : colorScale(type)}
                                 alignmentBaseline="start"
+                                opacity={isDimmed ? 0.2 : 1}
+                                fontWeight={isHighlighted ? 700 : 400}
                             >
                                 {`${type === "other_renewable" ? "Other" : sentenceCase(type)}`}
                             </text>

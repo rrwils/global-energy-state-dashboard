@@ -11,6 +11,9 @@ import { ResponsiveRenewableEnergyStackedBar } from './RenewableEnergyStackedBar
 function App() {
   
   const [selectedCountry, setSelectedCountry] = useState(null);
+  const [highlightedRenewable, setHighlightedRenewable] = useState(null);
+  const [selectedEnergy, setSelectedEnergy] = useState(null);
+
   return (
     <>
       <div className="header">
@@ -18,11 +21,32 @@ function App() {
         <p className="text-[10px] text-gray-600">Data source: <a class="underline decoration-1" href="https://ourworldindata.org/grapher/energy-consumption-by-source-and-country">Our World in Data</a></p>
       </div>
       
-      <p className="text-base ml-5 mt-6 mb-4 pr-4 text-black">Over the past six decades, global energy consumption quadrupled. Renewables accounted for 17.5% of the total increase in energy consumption over this period. However, fossil fuels — <span class="underline decoration-3 decoration-[#7f5a2e]">oil</span>, <span class="underline decoration-3 decoration-[#a1885a]">coal</span> and <span class="underline decoration-3 decoration-[#fdd49e]">gas</span> — still dominate the global energy landscape, making up around four-fifths of global energy consumption in 2024.</p>
+      <p className="text-base ml-5 mt-6 mb-4 pr-4 text-black">Over the past six decades, global energy consumption quadrupled. Renewables accounted for 17.5% of the total increase in energy consumption over this period. However, fossil fuels — 
+        <span 
+          className="underline decoration-3 decoration-[#7f5a2e]"
+          onMouseEnter={() => setSelectedEnergy('oil')}
+          onMouseLeave={() => setSelectedEnergy(null)}
+        >
+          oil
+        </span>, 
+        <span 
+          className="underline decoration-3 decoration-[#a1885a]"
+          onMouseEnter={() => setSelectedEnergy('coal')}
+          onMouseLeave={() => setSelectedEnergy(null)}
+        >
+          coal
+        </span>{' '}and{' '}
+        <span 
+          className="underline decoration-3 decoration-[#fdd49e]"
+          onMouseEnter={() => setSelectedEnergy('gas')}
+          onMouseLeave={() => setSelectedEnergy(null)}
+        >
+          gas
+        </span>{' '}— still dominate the global energy landscape, making up around four-fifths of global energy consumption in 2024.</p>
       <div className="comparison-container">
         <div className="comparison-item">
           <p className="text-sm font-semibold font-[Helvetica] ml-5 mt-2">World's energy consumption by source</p>
-          <ResponsiveEnergyMixStackedArea data={data} />
+          <ResponsiveEnergyMixStackedArea data={data} selectedEnergy={selectedEnergy} />
         </div>
         <div className="comparison-item">
           <p className="text-sm font-semibold font-[Helvetica] ml-5 mt-2">World's energy consumption mix</p>
@@ -31,10 +55,27 @@ function App() {
 
       </div>
 
-      <p className="text-base ml-5 mt-6 mb-4 pr-4 text-black"><span class="underline decoration-3 decoration-[#66c2a5]">Wind</span> and <span class="underline decoration-3 decoration-[#ffd92f]">solar</span> energy are the fastest growing sources in the renewable space, particularly in the last decade.</p>
+      <p className="text-base ml-5 mt-6 mb-4 pr-4 text-black">
+        <span
+          className="underline decoration-3 decoration-[#66c2a5]"
+          onMouseEnter={() => setHighlightedRenewable('wind')}
+          onMouseLeave={() => setHighlightedRenewable(null)}
+        >
+          Wind
+        </span>
+        {' '}and{' '}
+        <span
+          className="underline decoration-3 decoration-[#ffd92f]"
+          onMouseEnter={() => setHighlightedRenewable('solar')}
+          onMouseLeave={() => setHighlightedRenewable(null)}
+        >
+          solar
+        </span>
+        {' '}energy are the fastest growing sources in the renewable space, particularly in the last decade.
+      </p>
         <div>
           <p className="text-sm font-semibold font-[Helvetica] ml-5 mt-2">World's energy consumption, renewables only</p>
-          <ResponsiveRenewableLines data={data} />
+          <ResponsiveRenewableLines data={data} highlightedRenewable={highlightedRenewable} />
         </div>
         
       <p className="text-base ml-5 mt-6 mb-4 pr-4 text-black">Let's look at the top 10 countries by energy consumption in 2024. The top three are also the world's most populous. India overtook China in population in 2023, yet China consumed more energy than India and the US combined in 2024.
